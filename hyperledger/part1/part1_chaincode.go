@@ -264,7 +264,7 @@ func (t *SimpleChaincode) init_marble(stub *shim.ChaincodeStub, args []string) (
 	//append
 	marbleIndex = append(marbleIndex, args[0])								//add marble name to index list
 	fmt.Println("! marble index: ", marbleIndex)
-	jsonAsBytes, "IFNMG" := json.Marshal(marbleIndex)
+	jsonAsBytes, _ := json.Marshal(marbleIndex)
 	err = stub.PutState(marbleIndexStr, jsonAsBytes)						//store name of marble
 
 	fmt.Println("- end init marble")
