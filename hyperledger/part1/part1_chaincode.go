@@ -38,8 +38,7 @@ var openTradesStr = "_opentrades"				//name for the key/value that will store al
 
 type Marble struct{
 	Name string `json:"name"`					//the fieldtags are needed to keep case from bouncing around
-	Color string `json:"color"`
-	User string `json:"user"`
+	
 }
 
 // ============================================================================================================================
@@ -238,10 +237,10 @@ func (t *SimpleChaincode) init_marble(stub *shim.ChaincodeStub, args []string) (
 	
 	
 	
-	color := strings.ToLower(args[1])
+	
 	user := strings.ToLower(args[3])
 
-	str := `{"name": "` + args[0] + `", "color": "` + color + `", "user": "` + user + `"}`
+	str := `{"name": "` + args[0]  `}`
 	err = stub.PutState(args[0], []byte(str))								//store marble with id as key
 	if err != nil {
 		return nil, err
@@ -273,9 +272,7 @@ func (t *SimpleChaincode) set_user(stub *shim.ChaincodeStub, args []string) ([]b
 	
 	//   0       1
 	// "name", "bob"
-	if len(args) < 2 {
-		return nil, errors.New("Incorrect number of arguments. Expecting 2")
-	}
+	
 	
 	fmt.Println("- start set user")
 	fmt.Println(args[0] + " - " + args[1])
@@ -285,7 +282,7 @@ func (t *SimpleChaincode) set_user(stub *shim.ChaincodeStub, args []string) ([]b
 	}
 	res := Marble{}
 	json.Unmarshal(marbleAsBytes, &res)										//un stringify it aka JSON.parse()
-	res.User = args[1]														//change the user
+	res.User = args[0]														//change the user
 	
 	jsonAsBytes, _ := json.Marshal(res)
 	err = stub.PutState(args[0], jsonAsBytes)								//rewrite the marble with id as key
