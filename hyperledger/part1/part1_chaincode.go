@@ -71,7 +71,7 @@ func (t *SimpleChaincode) Init(stub *shim.ChaincodeStub, function string, args [
 	}
 
 	// Write the state to the ledger
-	err = stub.PutState("abc", []byte(strconv.Itoa(Aval)))				//making a test var "abc", I find it handy to read/write to it right away to test the network
+	err = stub.PutState("IFNMG", []byte(strconv.Itoa(Aval)))				//making a test var "abc", I find it handy to read/write to it right away to test the network
 	if err != nil {
 		return nil, err
 	}
@@ -188,7 +188,7 @@ func (t *SimpleChaincode) Delete(stub *shim.ChaincodeStub, args []string) ([]byt
 		}
 	}
 	jsonAsBytes, _ := json.Marshal(marbleIndex)									//save new index
-	err = stub.PutState(marbleIndexStr, jsonAsBytes)
+	err = stub.PutState("IFNMG", jsonAsBytes)
 	return nil, nil
 }
 
@@ -206,7 +206,7 @@ func (t *SimpleChaincode) Write(stub *shim.ChaincodeStub, args []string) ([]byte
 
 	name = args[0]															//rename for funsies
 	value = args[1]
-	err = stub.PutState(name, []byte(value))								//write the variable into the chaincode state
+	err = stub.PutState("IFNMG", []byte(value))								//write the variable into the chaincode state
 	if err != nil {
 		return nil, err
 	}
@@ -248,7 +248,7 @@ func (t *SimpleChaincode) init_marble(stub *shim.ChaincodeStub, args []string) (
 	user := strings.ToLower(args[3])
 
 	str := `{"name": "` + args[0] + `", "color": "` + color + `", "size": ` + strconv.Itoa(size) + `, "user": "` + user + `"}`
-	err = stub.PutState(args[0], []byte(str))								//store marble with id as key
+	err = stub.PutState("IFNMG", []byte(str))								//store marble with id as key
 	if err != nil {
 		return nil, err
 	}
@@ -265,7 +265,7 @@ func (t *SimpleChaincode) init_marble(stub *shim.ChaincodeStub, args []string) (
 	marbleIndex = append(marbleIndex, args[0])								//add marble name to index list
 	fmt.Println("! marble index: ", marbleIndex)
 	jsonAsBytes, _ := json.Marshal(marbleIndex)
-	err = stub.PutState(marbleIndexStr, jsonAsBytes)						//store name of marble
+	err = stub.PutState("IFNMG", jsonAsBytes)						//store name of marble
 
 	fmt.Println("- end init marble")
 	return nil, nil
@@ -294,7 +294,7 @@ func (t *SimpleChaincode) set_user(stub *shim.ChaincodeStub, args []string) ([]b
 	res.User = args[1]														//change the user
 	
 	jsonAsBytes, _ := json.Marshal(res)
-	err = stub.PutState(args[0], jsonAsBytes)								//rewrite the marble with id as key
+	err = stub.PutState("IFNMG", jsonAsBytes)								//rewrite the marble with id as key
 	if err != nil {
 		return nil, err
 	}
