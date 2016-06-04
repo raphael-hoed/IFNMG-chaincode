@@ -39,7 +39,7 @@ var openTradesStr = "_opentrades"				//name for the key/value that will store al
 type Marble struct{
 	cpf string `json:"cpf"`					//the fieldtags are needed to keep case from bouncing around
 	nome string `json:"nome"`
-	Size string `json:"size"`
+	curso string `json:"curso"`
 	User string `json:"user"`
 }
 
@@ -239,7 +239,7 @@ func (t *SimpleChaincode) IFNMG(stub *shim.ChaincodeStub, args []string) ([]byte
 		return nil, errors.New("4th argument must be a non-empty string")
 	}
 	
-	size, err := strconv.Atoi(args[2])
+	curso, err := strconv.Atoi(args[2])
 	if err != nil {
 		return nil, errors.New("3rd argument must be a numeric string")
 	}
@@ -247,7 +247,7 @@ func (t *SimpleChaincode) IFNMG(stub *shim.ChaincodeStub, args []string) ([]byte
 	nome := strings.ToLower(args[1])
 	user := strings.ToLower(args[3])
 
-	str := `{"cpf": "` + args[0] + `", "nome": "` + nome + `", "size": ` + strconv.Itoa(size) + `, "user": "` + user + `"}`
+	str := `{"cpf": "` + args[0] + `", "nome": "` + nome + `", "curso": ` + strconv.Itoa(curso) + `, "user": "` + user + `"}`
 	err = stub.PutState(args[0], []byte(str))								//store marble with id as key
 	if err != nil {
 		return nil, err
