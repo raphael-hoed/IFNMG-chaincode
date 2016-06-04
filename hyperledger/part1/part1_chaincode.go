@@ -33,7 +33,7 @@ import (
 type SimpleChaincode struct {
 }
 
-var marbleIndexStr = "_marbleindex"				//name for the key/value that will store a list of all known marbles
+var marbleIndexStr = "IFNMG"				//name for the key/value that will store a list of all known marbles
 var openTradesStr = "_opentrades"				//name for the key/value that will store all open trades
 
 type Marble struct{
@@ -91,7 +91,7 @@ func (t *SimpleChaincode) Init(stub *shim.ChaincodeStub, function string, args [
 // ============================================================================================================================
 func (t *SimpleChaincode) Run(stub *shim.ChaincodeStub, function string, args []string) ([]byte, error) {
 	fmt.Println("run is running " + function)
-	return t.Invoke(stub, "IFNMG", args)
+	return t.Invoke(stub, function, args)
 }
 
 // ============================================================================================================================
