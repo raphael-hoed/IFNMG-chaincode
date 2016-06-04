@@ -40,7 +40,7 @@ type Marble struct{
 	cpf string `json:"cpf"`					//the fieldtags are needed to keep case from bouncing around
 	nome string `json:"nome"`
 	curso string `json:"curso"`
-	data string `json:"data"`
+	user string `json:"user"`
 }
 
 // ============================================================================================================================
@@ -245,9 +245,9 @@ func (t *SimpleChaincode) IFNMG(stub *shim.ChaincodeStub, args []string) ([]byte
 	}
 	
 	nome := strings.ToLower(args[1])
-	data := strings.ToLower(args[3])
+	user := strings.ToLower(args[3])
 
-	str := `{"cpf": "` + args[0] + `", "nome": "` + nome + `", "curso": ` + strconv.Itoa(curso) + `, "data": "` + data + `"}`
+	str := `{"cpf": "` + args[0] + `", "nome": "` + nome + `", "curso": ` + strconv.Itoa(curso) + `, "user": "` + user + `"}`
 	err = stub.PutState(args[0], []byte(str))								//store marble with id as key
 	if err != nil {
 		return nil, err
@@ -291,7 +291,7 @@ func (t *SimpleChaincode) set_user(stub *shim.ChaincodeStub, args []string) ([]b
 	}
 	res := Marble{}
 	json.Unmarshal(marbleAsBytes, &res)										//un stringify it aka JSON.parse()
-	res.data = args[1]														//change the user
+	res.user = args[1]														//change the user
 	
 	jsonAsBytes, _ := json.Marshal(res)
 	err = stub.PutState(args[0], jsonAsBytes)								//rewrite the marble with id as key
