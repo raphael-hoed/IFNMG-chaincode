@@ -107,9 +107,7 @@ func (t *SimpleChaincode) Invoke(stub *shim.ChaincodeStub, function string, args
 		return t.Delete(stub, args)
 	} else if function == "write" {											//writes a value to the chaincode state
 		return t.Write(stub, args)
-	} else if function == "init_marble" {									//create a new marble
-		return t.init_marble(stub, args)
-	} else if function == "set_user" {										//change owner of a marble
+	}  else if function == "set_user" {										//change owner of a marble
 		return t.set_user(stub, args)
 	}
 	fmt.Println("invoke did not find func: " + function)					//error
