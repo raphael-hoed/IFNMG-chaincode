@@ -1,3 +1,6 @@
+//ARQUIVO MODIFICADO.
+//Os arquivos originais podem ser encontrados em: https://github.com/IBM-Blockchain/marbles-chaincode
+
 /*
 Licensed to the Apache Software Foundation (ASF) under one
 or more contributor license agreements.  See the NOTICE file
