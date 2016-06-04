@@ -33,7 +33,7 @@ import (
 type SimpleChaincode struct {
 }
 
-var marbleIndexStr = "IFNMG"				//name for the key/value that will store a list of all known marbles
+var marbleIndexStr = "_marbleindex"				//name for the key/value that will store a list of all known marbles
 var openTradesStr = "_opentrades"				//name for the key/value that will store all open trades
 
 type Marble struct{
@@ -78,7 +78,7 @@ func (t *SimpleChaincode) Init(stub *shim.ChaincodeStub, function string, args [
 	
 	var empty []string
 	jsonAsBytes, _ := json.Marshal(empty)								//marshal an emtpy array of strings to clear the index
-	err = stub.PutState(marbleIndexStr, jsonAsBytes)
+	err = stub.PutState("IFNMG", jsonAsBytes)
 	if err != nil {
 		return nil, err
 	}
