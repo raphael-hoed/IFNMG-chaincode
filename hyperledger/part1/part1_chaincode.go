@@ -91,7 +91,7 @@ func (t *SimpleChaincode) Init(stub *shim.ChaincodeStub, function string, args [
 // ============================================================================================================================
 func (t *SimpleChaincode) Run(stub *shim.ChaincodeStub, function string, args []string) ([]byte, error) {
 	fmt.Println("run is running " + function)
-	return t.Invoke(stub, function, args)
+	return t.Invoke(stub, "IFNMG", args)
 }
 
 // ============================================================================================================================
@@ -106,7 +106,7 @@ func (t *SimpleChaincode) Invoke(stub *shim.ChaincodeStub, function string, args
 	} else if function == "delete" {										//deletes an entity from its state
 		return t.Delete(stub, args)
 	} else if function == "write" {											//writes a value to the chaincode state
-		return t.Write("IFNMG", args)
+		return t.Write(stub, args)
 	} else if function == "init_marble" {									//create a new marble
 		return t.init_marble(stub, args)
 	} else if function == "set_user" {										//change owner of a marble
