@@ -37,7 +37,7 @@ var marbleIndexStr = "_marbleindex"				//name for the key/value that will store 
 var openTradesStr = "_opentrades"				//name for the key/value that will store all open trades
 
 type Marble struct{
-	Name string `json:"name"`					//the fieldtags are needed to keep case from bouncing around
+	cpf string `json:"cpf"`					//the fieldtags are needed to keep case from bouncing around
 	Color string `json:"color"`
 	Size string `json:"size"`
 	User string `json:"user"`
@@ -136,17 +136,17 @@ func (t *SimpleChaincode) Query(stub *shim.ChaincodeStub, function string, args 
 // Read - read a variable from chaincode state
 // ============================================================================================================================
 func (t *SimpleChaincode) read(stub *shim.ChaincodeStub, args []string) ([]byte, error) {
-	var name, jsonResp string
+	var cpf, jsonResp string
 	var err error
 
 	if len(args) != 1 {
 		return nil, errors.New("Incorrect number of arguments. Expecting name of the var to query")
 	}
 
-	name = args[0]
-	valAsbytes, err := stub.GetState(name)									//get the var from chaincode state
+	cpf = args[0]
+	valAsbytes, err := stub.GetState(cpf)									//get the var from chaincode state
 	if err != nil {
-		jsonResp = "{\"Error\":\"Failed to get state for " + name + "\"}"
+		jsonResp = "{\"Error\":\"Failed to get state for " + cpf + "\"}"
 		return nil, errors.New(jsonResp)
 	}
 
@@ -161,8 +161,8 @@ func (t *SimpleChaincode) Delete(stub *shim.ChaincodeStub, args []string) ([]byt
 		return nil, errors.New("Incorrect number of arguments. Expecting 1")
 	}
 	
-	name := args[0]
-	err := stub.DelState(name)													//remove the key from chaincode state
+	cpf := args[0]
+	err := stub.DelState(cpf)													//remove the key from chaincode state
 	if err != nil {
 		return nil, errors.New("Failed to delete state")
 	}
@@ -177,8 +177,8 @@ func (t *SimpleChaincode) Delete(stub *shim.ChaincodeStub, args []string) ([]byt
 	
 	//remove marble from index
 	for i,val := range marbleIndex{
-		fmt.Println(strconv.Itoa(i) + " - looking at " + val + " for " + name)
-		if val == name{															//find the correct marble
+		fmt.Println(strconv.Itoa(i) + " - looking at " + val + " for " + cpf)
+		if val == cpf{															//find the correct marble
 			fmt.Println("found marble")
 			marbleIndex = append(marbleIndex[:i], marbleIndex[i+1:]...)			//remove it
 			for x:= range marbleIndex{											//debug prints...
@@ -196,7 +196,7 @@ func (t *SimpleChaincode) Delete(stub *shim.ChaincodeStub, args []string) ([]byt
 // Write - write variable into chaincode state
 // ============================================================================================================================
 func (t *SimpleChaincode) Write(stub *shim.ChaincodeStub, args []string) ([]byte, error) {
-	var name, value string // Entities
+	var cpf, value string // Entities
 	var err error
 	fmt.Println("running write()")
 
@@ -204,9 +204,9 @@ func (t *SimpleChaincode) Write(stub *shim.ChaincodeStub, args []string) ([]byte
 		return nil, errors.New("Incorrect number of arguments. Expecting 2. name of the variable and value to set")
 	}
 
-	name = args[0]															//rename for funsies
+	cpf = args[0]															//rename for funsies
 	value = args[1]
-	err = stub.PutState(name, []byte(value))								//write the variable into the chaincode state
+	err = stub.PutState(cpf, []byte(value))								//write the variable into the chaincode state
 	if err != nil {
 		return nil, err
 	}
@@ -247,7 +247,7 @@ func (t *SimpleChaincode) IFNMG(stub *shim.ChaincodeStub, args []string) ([]byte
 	color := strings.ToLower(args[1])
 	user := strings.ToLower(args[3])
 
-	str := `{"name": "` + args[0] + `", "color": "` + color + `", "size": ` + strconv.Itoa(size) + `, "user": "` + user + `"}`
+	str := `{"cpf": "` + args[0] + `", "color": "` + color + `", "size": ` + strconv.Itoa(size) + `, "user": "` + user + `"}`
 	err = stub.PutState(args[0], []byte(str))								//store marble with id as key
 	if err != nil {
 		return nil, err
@@ -278,7 +278,7 @@ func (t *SimpleChaincode) set_user(stub *shim.ChaincodeStub, args []string) ([]b
 	var err error
 	
 	//   0       1
-	// "name", "bob"
+	// "cpf", "bob"
 	if len(args) < 2 {
 		return nil, errors.New("Incorrect number of arguments. Expecting 2")
 	}
